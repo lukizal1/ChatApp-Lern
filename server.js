@@ -1,6 +1,6 @@
 'use strict';
 
-const hostname = "localhost";
+const hostname = "mychat.htl-vil.informatik";
 const port = 2604;
 
 const express = require('express');
