@@ -53,17 +53,96 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
     //if no User is found, send 404
-    res.status(200).send(`Complete update on user with id ${req.params.id}`);
+    let toUpdateUser = req.body;
+
+    User.findById(req.params.id, selectionFields, (err, selectedUser) => {
+        if (err){
+            res.status(500).send('something went wrong');
+        } else {
+            if (selectedUser != null) {
+                let compareUser = selectedUser.toJSON();
+
+                //remove the id property
+                delete compareUser._id;
+
+                //check all properties
+                if(Object.keys(compareUser).length != Object.keys(toUpdateUser).length) {
+                    res.status(400).send('number of properties in object not valid');
+                } else {
+                    if(Object.keys(toUpdateUser).some(k => { return compareUser[k] == undefined })) {
+                        res.status(400).send('properties of object do not match');
+                    } else {
+                        //update - now (use the original mongoose-object again)
+                        for (let key in toUpdateUser) {
+                            selectedUser[key] = toUpdateUser[key];
+                        }
+                        selectedUser.save(function (err, savedUser) {
+                            if (err) {
+                                res.status(500).json('somethingwent wrong');
+                            } else {
+                                res.status(200).json(savedUser);
+                            }
+                        });
+                    }
+                }
+            }
+            else {
+                res.status(404).send('not found');
+            }
+        }
+    });
 });
 
 router.patch('/:id', (req, res) => {
     //if no User is found, send 404
-    res.status(200).send(`Partial update on user with id ${req.params.id}`);
+    let toUpdateUser = req.body;
+
+    User.findById(req.params.id, selectionFields, (err, selectedUser) => {
+        if (err) {
+            res.status(500).send('something went wrong');
+        } else {
+            if ( selectedUser != null) {
+                //by default you can not iterate mongoose object -
+                let compareUser = selectedUser.toJSON();
+
+                //remove the id property
+                delete compareUser._id;
+
+                //check properties
+                if(Object.keys(toUpdateUser).some(k => { return compareUser[k] == undefined})) {
+                    res.status(400).send('properties of object do not match');
+                } else {
+                    //update - now (use the original mongoos-object again)
+                    for (let key in toUpdateUser) {
+                        selectedUser[key] = toUpdateUser[key];
+                    }
+                    selectedUser.save(function (err, savedUser) {
+                        if (err) {
+                            res.status(500).json('something went wrong');
+                        } else {
+                            res.status(200).json(savedUser);
+                        }
+                    });
+                }
+            }
+            else {
+                res.status(404).send('not found');
+            }
+        }
+    });
 });
 
 router.delete('/:id', (req, res) => {
     // if no User is found, send 404
-    res.status(204).send(`Delete user with id ${req.params.id}`);
+    User.findByIdAndRemove(req.params.id, (err) => {
+        if(err) {
+            //todo: check error to find out 404 or other problem
+            res.status(500).send(err);
+        } else {
+            // 204 means: there is no content - so no message will be delivered
+            res.status(204).send();
+        }
+    });
 });
 
 module.exports = router;
