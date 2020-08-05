@@ -13,7 +13,16 @@ const userRouter = require('./users/user-router');
 const app = express();
 connectDb();
 
-function connectDb() {
+async function connectDb(deleteFormerDB) {
+    let dbConn = null;
+
+    if (deleteFormerDB == 'YES') {
+        dbConn = mongoose.createConnection(mongoConnectionString, { useNewUrlParser: true});
+        await dbConn.dropDatabase();
+        console.log('former database dropped');
+    }
+
+
     mongoose.connect(mongoConnectionString, { useNewUrlParser: true , useUnifiedTopology: true});
     let dbConn = mongoose.connection;
     
@@ -22,6 +31,11 @@ function connectDb() {
 
     dbConn.once('open', function () {
         console.log(`database connection to ${mongoConnectionString} successfully established. `);
+
+        mongoose.set('useNewUrlParser', true);
+        mongoose.set('useFindAndModify', false);
+        mongoose.set('useCreateIndex', true);
+        
         defaultSetup();
     });
 }

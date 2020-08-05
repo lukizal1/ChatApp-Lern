@@ -1,0 +1,644 @@
+{
+	"info": {
+		"_postman_id": "b3428b13-911c-4043-b34d-a506c620f92f",
+		"name": "ChatApp-Lern",
+		"description": "Test Cases for the WebApplication (Backend)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "19ffe470-4801-4a91-af13-77d51569fa7e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					]
+				},
+				"description": "get all user "
+			},
+			"response": []
+		},
+		{
+			"name": "single user (invalid id)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "051359a6-e47c-4cba-b3d0-314dfbbfd47c",
+						"exec": [
+							"pm.test(\"Status code is 400\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/2",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "single user (valid id but not found)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "94236b79-3492-45fe-a2a1-cae4624f03b7",
+						"exec": [
+							"pm.test(\"Status code is 404\", function() {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/5f29370deb84823a642b8e78",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"5f29370deb84823a642b8e78"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "single user (Success)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "375b9014-98fd-4bdf-b865-783909c48047",
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: pm.variables.get(\"backend\") + pm.variables.get(\"usersEndpoint\"),\r",
+							"    method: 'POST',\r",
+							"    header: 'content-type:application/json',\r",
+							"     body: {\r",
+							"         mode: 'raw',\r",
+							"         raw: JSON.stringify(\r",
+							"             {\r",
+							"                 \"firstname\" : \"\",\r",
+							"                 \"lastname\" : \"Sokrates\",\r",
+							"                 \"username\" : \"sokrates\",\r",
+							"                 \"password\" : \"i do not know\",\r",
+							"                 \"state\" : \"offline\"\r",
+							"             })\r",
+							"     }\r",
+							"}, function (err, res) {\r",
+							"    console.log(res);\r",
+							"    var generatedUserID = res.json()._id;\r",
+							"    postman.setGlobalVariable (\"generatedUserID\", generatedUserID);\r",
+							"    console.log(generatedUserID);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d6f3c683-e201-4a86-80ef-e0dd0bce6347",
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Got correct User back\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData._id).to.eql(postman.getGlobalVariable(\"generatedUserID\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				},
+				"description": "get one single user by id"
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "94fd0c15-106f-450a-87bf-6a03f73b3786",
+						"exec": [
+							"pm.test(\"Status code is 201\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Ludwig\",\r\n    \"lastname\": \"Wittgenstein\",\r\n    \"username\": \"wittgen1\",\r\n    \"password\": \"wittgemein\",\r\n    \"state\": \"offline\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					]
+				},
+				"description": "post a json-Object to create a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "complete user update (wrong id)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e66f6997-c12f-4cae-8f77-bc7adb5113f4",
+						"exec": [
+							"pm.test(\"Status code is 404\", function() {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"firstname\": \"Ludwig\",\r\n        \"lastname\": \"Wittgenstein\",\r\n        \"username\": \"wittgen1\",\r\n        \"password\": \"wittgemein\",\r\n        \"state\": \"offline\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/5f29370deb84823a642b8e78",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"5f29370deb84823a642b8e78"
+					]
+				},
+				"description": "put complete user update\r\nexchange the user with the current id with a new json-Object"
+			},
+			"response": []
+		},
+		{
+			"name": "complete user update (too much properties)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b435a9fc-f124-49d7-9a72-2ba04002f1e6",
+						"exec": [
+							"pm.test(\"Status code is 400\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"_id\": \"5f29370deb84823a642b8e78\",\r\n        \"firstname\": \"Ludwig\",\r\n        \"lastname\": \"Wittgenstein\",\r\n        \"username\": \"wittgen1\",\r\n        \"password\": \"wittgemein\",\r\n        \"state\": \"offline\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete user update (too less properties)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c394f558-6793-42d5-9f54-a6871b8db9e0",
+						"exec": [
+							"pm.test(\"Status code is 400\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Hans\",\r\n    \"lastname\": \"Wittgenstein\",\r\n    \"password\": \"wittgemein\",\r\n    \"state\": \"offline\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete user update (wrong properties)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa356954-ca56-4a7a-b958-d7eb43352165",
+						"exec": [
+							"pm.test(\"Status code is 400\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Hans\",\r\n    \"lastname\": \"Wittgenstein\",\r\n    \"usernme\" : \"wittge\",\r\n    \"password\": \"wittgemein\",\r\n    \"state\": \"offline\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete user update (Success-Case)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6389da8c-98e9-4416-9d0f-3d52e699dada",
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Hans\",\r\n    \"lastname\": \"Wittgenstein\",\r\n    \"username\" : \"wittgenius\",\r\n    \"password\": \"wittgemein\",\r\n    \"state\": \"offline\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "partial user update (wrong id)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8cfc0203-01ad-420e-8f3d-6180e2b95f4a",
+						"exec": [
+							"pm.test(\"Status code is 404\", function() {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Ludwig\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/5f29370deb84823a642b8e78",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"5f29370deb84823a642b8e78"
+					]
+				},
+				"description": "patch partial user update"
+			},
+			"response": []
+		},
+		{
+			"name": "partial user update (wrong properties)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6cc7512-d7f9-4d35-a4c8-490c33fc82b5",
+						"exec": [
+							"pm.test(\"Status code is 400\", function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_id\": \"2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "partial user update (Success-Case 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "776e1d4e-ab9f-48e1-b885-d107eb15bf15",
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : \"Hans\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "partial user update (Success-Case 2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a0ead939-a74f-4dba-84a8-b317f33a9b63",
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\" : \"wittgo1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bfecfa9f-cb92-4225-9de7-698ec09c0370",
+						"exec": [
+							"pm.test(\"Status code is 204\", function() {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}{{usersEndpoint}}/{{generatedUserID}}",
+					"host": [
+						"{{backend}}{{usersEndpoint}}"
+					],
+					"path": [
+						"{{generatedUserID}}"
+					]
+				},
+				"description": "delete user"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ffb05653-9db9-4cef-9e3f-1189d42c1f83",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c6ce32e4-7d74-46b7-9782-a16142dacb69",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "982d6e5a-7925-4e1c-bf10-af4c468ff53b",
+			"key": "backend",
+			"value": "http://mychat.htl-vil.informatik:2604/api"
+		},
+		{
+			"id": "0136b9cc-8836-4935-b0e4-c2e6ea7d79da",
+			"key": "usersEndpoint",
+			"value": "/users"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
