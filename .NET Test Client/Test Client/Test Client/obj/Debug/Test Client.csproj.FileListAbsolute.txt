@@ -1,0 +1,18 @@
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\bin\Debug\Test Client.exe.config
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\bin\Debug\Test Client.exe
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\bin\Debug\Test Client.pdb
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client.csprojAssemblyReference.cache
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\MainWindow.g.cs
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\App.g.cs
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client_MarkupCompile.cache
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client_MarkupCompile.lref
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\MainWindow.baml
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client.g.resources
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test_Client.Properties.Resources.resources
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client.csproj.GenerateResource.cache
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client.csproj.CoreCompileInputs.cache
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client.exe
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client.pdb
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\bin\Debug\Newtonsoft.Json.dll
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\bin\Debug\Newtonsoft.Json.xml
+C:\Users\lukas\Documents\Schule\4AHIF\NVS_KAA\Prüfung\ChatApp-Projekt\.NET Test Client\Test Client\Test Client\obj\Debug\Test Client.csproj.CopyComplete
